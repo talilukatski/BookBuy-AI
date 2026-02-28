@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+pydantic
+requests
+pandas
+pinecone
+langchain-openai
+openai
+langchain-pinecone
+supabase
+python-dotenv
+pillow
+
