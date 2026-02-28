@@ -71,6 +71,7 @@ def llm_select_books_by_description(user_prompt: str, rag_books: List[Dict[str, 
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     prompt = f"""
@@ -169,6 +170,7 @@ def llm_choose_book_by_reviews(user_prompt: str, description_books: List[dict], 
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     prompt = f"""
@@ -308,3 +310,4 @@ if __name__ == "__main__":
     )
 
     print(json.dumps(book, ensure_ascii=False, indent=2))
+
