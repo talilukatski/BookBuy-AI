@@ -36,7 +36,7 @@ class TeamInfo(BaseModel):
 class AgentInfo(BaseModel):
     description: str
     purpose: str
-    prompt_template: Dict[str, str]
+    prompt_template: List[Dict[str, Any]]
     prompt_examples: List[Dict[str, Any]]
 
 
@@ -402,4 +402,5 @@ async def execute_agent(request: ExecuteRequest):
 if __name__ == "__main__":
     import uvicorn
     # Agent runs on 8080. Store runs on 8000.
+
     uvicorn.run(app, host="0.0.0.0", port=8080)
