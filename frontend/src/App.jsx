@@ -6,7 +6,29 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
 
 function App() {
   const [messages, setMessages] = useState([
-    { id: 1, sender: 'agent', text: 'Hello! I am your Book Buying Agent. What are you looking for today?' }
+  {
+    id: 1,
+    sender: 'agent',
+    text: `Hi! I'm your Book Buying Agent 📚
+  
+  Tell me what kind of book you're looking for and I'll handle everything for you.
+  
+  I will:
+  • Find the best book that matches your request
+  • Compare prices across multiple bookstores
+  • Choose the best deal
+  • Purchase the book for you automatically
+  
+  How to use the form below:
+  prompt – describe the book you want
+  address – delivery address
+  payment_token – payment identifier
+  book_preferences – optional preferences (topic, length, etc.)
+  disliked_titles – books you don't want recommended
+  already_read_titles – books you've already read
+  
+  Fill the fields and click "Run Agent" to get started.`
+  }
   ])
 
   // This function now receives a full JSON payload instead of plain text
