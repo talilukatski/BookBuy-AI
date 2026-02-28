@@ -44,7 +44,7 @@ class ExecuteRequest(BaseModel):
     prompt: str
     address: str
     payment_token: str
-    book_preferences: Optional[List[str]] = None
+    user_preferences: Optional[List[str]] = None
     disliked_titles: Optional[List[str]] = None
     already_read_titles: Optional[List[str]] = None
 
@@ -82,7 +82,7 @@ async def get_agent_info():
                 "prompt": "I'm looking for a theoretical astrology book that explains astrological patterns",
                 "address": "Nofit Hol, Haifa",
                 "payment_token": "1234567",
-                "book_preferences": [
+                "user_preferences": [
                     "astrology", "theoretical approach", "meditation exercises", "visual explanations",
                     "book length: around 400 pages"
                 ],
@@ -97,7 +97,7 @@ async def get_agent_info():
                 "prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                 "address": "Tel Aviv",
                 "payment_token": "9876543",
-                "book_preferences": [
+                "user_preferences": [
                     "animals", "wildlife", "nature", "animal behavior",
                     "book length: around 150-300 pages"
                 ],
@@ -111,7 +111,7 @@ async def get_agent_info():
                 "prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                 "address": "Tel Aviv",
                 "payment_token": "9876543",
-                "book_preferences": [
+                "user_preferences": [
                     "book length: around 30 pages"
                 ],
                 "disliked_titles": [],
@@ -127,7 +127,7 @@ async def get_agent_info():
                     "prompt": "I'm looking for a theoretical astrology book that explains astrological patterns",
                     "address": "Nofit Hol, Haifa",
                     "payment_token": "1234567",
-                    "book_preferences": [
+                    "user_preferences": [
                         "astrology", "theoretical approach", "meditation exercises", "visual explanations",
                         "book length: around 400 pages"
                     ],
@@ -220,7 +220,7 @@ async def get_agent_info():
                     "prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                     "address": "Tel Aviv",
                     "payment_token": "9876543",
-                    "book_preferences": [
+                    "user_preferences": [
                         "animals", "wildlife", "nature", "animal behavior",
                         "book length: around 150-300 pages"
                     ],
@@ -314,7 +314,7 @@ async def get_agent_info():
                     "prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                     "address": "Tel Aviv",
                     "payment_token": "9876543",
-                    "book_preferences": [
+                    "user_preferences": [
                         "book length: around 30 pages"
                     ],
                     "disliked_titles": [],
@@ -365,7 +365,7 @@ async def execute_agent(request: ExecuteRequest):
     steps = []
     try:
         user = UserPersonalDetails(
-            user_preferences=request.book_preferences,
+            user_preferences=request.user_preferences,
             disliked_titles=request.disliked_titles,
             already_read_titles=request.already_read_titles,
             address=request.address,
@@ -402,5 +402,4 @@ async def execute_agent(request: ExecuteRequest):
 if __name__ == "__main__":
     import uvicorn
     # Agent runs on 8080. Store runs on 8000.
-
     uvicorn.run(app, host="0.0.0.0", port=8080)
