@@ -10,24 +10,11 @@ function App() {
     id: 1,
     sender: 'agent',
     text: `Hi! I'm your Book Buying Agent 📚
-  
-  Tell me what kind of book you're looking for and I'll handle everything for you.
-  
-  I will:
-  • Find the best book that matches your request
-  • Compare prices across multiple bookstores
-  • Choose the best deal
-  • Purchase the book for you automatically
-  
-  How to use the form below:
-  prompt – describe the book you want
-  address – delivery address
-  payment_token – payment identifier
-  book_preferences – optional preferences (topic, length, etc.)
-  disliked_titles – books you don't want recommended
-  already_read_titles – books you've already read
-  
-  Fill the fields and click "Run Agent" to get started.`
+
+    Tell me what book you want and I'll do the rest:
+    I'll find the best match, compare prices across bookstores, choose the best deal, and buy it for you automatically.
+    
+    Fill the request below and click "Run Agent".`
   }
   ])
 
