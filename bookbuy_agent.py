@@ -221,6 +221,7 @@ if __name__ == "__main__":
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     # 2) Create the runner
@@ -253,5 +254,6 @@ if __name__ == "__main__":
             print(f"\nTOOL: {s['module']}")
             print("INPUT:", s["prompt"])
             print("OUTPUT:", s["response"])
+
 
     print("\nDone.\n")
