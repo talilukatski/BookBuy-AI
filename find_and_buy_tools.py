@@ -6,7 +6,7 @@ from langchain_core.tools import tool
 # --- Configuration for Retailer API ---
 # This assumes the Mock Retailer API is running on port 8000
 RETAILER_API_URL = os.getenv("RETAILER_API_URL", "http://127.0.0.1:8000")
-SHOPS = ["fiction_boutique", "knowledge_store", "mega_market"]
+SHOPS = ["Old_Town_Books", "Riverside_Books", "The_Reading_Room", "Evergreen_Books"]
 
 @tool("findPricesTool")
 def find_prices(book_title: str) -> dict:
@@ -123,4 +123,5 @@ def buy_book(shop_id: str, book_title: str, address: str, payment_token: str) ->
             "shop": shop_id,
             "title": book_title,
             "error": str(e)
+
         }
