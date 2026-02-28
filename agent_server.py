@@ -377,6 +377,7 @@ async def execute_agent(request: ExecuteRequest):
             api_key=OPENAI_API_KEY,
             base_url=OPENAI_BASE_URL,
             max_tokens=1024,
+            temperature=1,
         )
         import find_and_buy_tools
         find_and_buy_tools.CURRENT_USER = user
@@ -403,3 +404,4 @@ if __name__ == "__main__":
     import uvicorn
     # Agent runs on 8080. Store runs on 8000.
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
