@@ -6,7 +6,7 @@ const DEFAULT_JSON = `{
   "prompt": "",
   "address": "",
   "payment_token": "",
-  "book_preferences": [],
+  "user_preferences": [],
   "disliked_titles": [],
   "already_read_titles": []
 }`
@@ -69,7 +69,7 @@ function ChatInterface({ messages, onSendMessage }) {
       return [String(v)]
     }
 
-    payload.book_preferences = normalizeList(payload.book_preferences)
+    payload.user_preferences = normalizeList(payload.user_preferences)
     payload.disliked_titles = normalizeList(payload.disliked_titles)
     payload.already_read_titles = normalizeList(payload.already_read_titles)
 
