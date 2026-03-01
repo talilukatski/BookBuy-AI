@@ -2,8 +2,6 @@ import { useState } from 'react'
 import './App.css'
 import ChatInterface from './components/ChatInterface'
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
-
 function App() {
   const [messages, setMessages] = useState([
   {
@@ -45,7 +43,7 @@ function App() {
     try {
 
       // 3. Send the entire JSON payload directly to the backend API
-      const response = await fetch(`${API_BASE_URL}/api/execute`, {
+      const response = await fetch(`/agent/api/execute`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
