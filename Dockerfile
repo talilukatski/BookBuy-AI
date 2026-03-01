@@ -21,4 +21,4 @@ RUN npm install && npm run build
 
 # Run server
 WORKDIR /app
-CMD ["bash", "-lc", "uvicorn app:app --host 0.0.0.0 --port ${PORT}"]
+CMD ["bash", "-lc", "uvicorn app:app --host 0.0.0.0 --port ${PORT} --workers 3"]
