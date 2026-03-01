@@ -62,25 +62,20 @@ class SearchResponse(BaseModel):
 
 @app.get("/shops/{shop_id}/search", response_model=SearchResponse)
 async def search_book(shop_id: str, title: str):
-    """
-    Search for a book by title in a specific shop.
-    Returns the first approximate match.
-    """
+
     if shop_id not in CATALOGS:
         raise HTTPException(status_code=404, detail="Shop not found")
-    
+
     df = CATALOGS[shop_id]
-    
-    # Case-insensitive partial match
-    # We look for the search term in the 'title_lower' column
-    match = df[df['title_lower'].str.contains(title.lower(), na=False, regex=False)]
-    
+
+    # exact match
+    match = df[df['title_lower'] == title.lower()]
+
     if match.empty:
         raise HTTPException(status_code=404, detail="Book not found in this shop")
-    
-    # Return the first match
+
     book = match.iloc[0]
-    
+
     return SearchResponse(
         title=book['Title'],
         price=float(book['price']),
