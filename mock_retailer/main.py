@@ -19,7 +19,7 @@ CATALOGS = {}
 def load_catalogs():
     """Loads CSV catalogs into global dictionary."""
     global CATALOGS
-    shops = ["fiction_boutique", "knowledge_store", "mega_market"]
+    shops = ["fiction_boutique", "knowledge_store", "mega_market1", "mega_market1"]
     
     print("Loading catalogs...")
     for shop in shops:
