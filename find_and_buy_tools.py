@@ -34,7 +34,7 @@ def find_prices(book_title: str) -> dict:
     for shop in SHOPS:
         try:
             url = f"{RETAILER_API_URL}/shops/{shop}/search"
-            res = requests.get(url, params={"title": book_title}, timeout=10)
+            res = requests.get(url, params={"title": book_title}, timeout=40)
 
             if res.status_code != 200:
                 errors.append({"shop": shop, "error": f"HTTP {res.status_code}: {res.text}"})
@@ -125,4 +125,5 @@ def buy_book(shop_id: str, book_title: str, address: str, payment_token: str) ->
             "error": str(e)
 
         }
+
 
