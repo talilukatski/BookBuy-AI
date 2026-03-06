@@ -93,6 +93,7 @@ def llm_select_books_by_description(
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     prompt = f"""
@@ -210,6 +211,7 @@ def llm_choose_book_by_reviews(
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     prompt = f"""
@@ -379,3 +381,4 @@ if __name__ == "__main__":
     )
 
     print(json.dumps(book, ensure_ascii=False, indent=2))
+
