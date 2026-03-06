@@ -29,7 +29,6 @@ class BookBuyAgentRunner:
         excluded_titles = self.user.initial_excluded_titles()
         all_steps = []
 
-        # Outer loop: Handles the 3-attempt limit
         for attempt_number in range(1, 4):
             system_context = f"""
     You are a ReAct BookBuy agent.
@@ -79,15 +78,25 @@ class BookBuyAgentRunner:
             for step in range(8):
                 ai_msg = self.llm_with_tools.invoke(messages)
 
+                last_tool_message = None
+                for m in reversed(messages):
+                    if isinstance(m, ToolMessage):
+                        last_tool_message = {
+                            "type": "ToolMessage",
+                            "content": m.content
+                        }
+                        break
+
+                runner_prompt = {
+                    "system": system_context,
+                    "user": user_prompt
+                }
+                if last_tool_message:
+                    runner_prompt["last_tool_result"] = last_tool_message
+
                 all_steps.append({
                     "module": "BookBuyAgentRunner",
-                    "prompt": [
-                        {
-                            "type": type(m).__name__,
-                            "content": getattr(m, "content", "")
-                        }
-                        for m in messages
-                    ],
+                    "prompt": runner_prompt,
                     "response": {
                         "content": ai_msg.content,
                         "tool_calls": ai_msg.tool_calls or []
@@ -105,8 +114,12 @@ class BookBuyAgentRunner:
                             "status": "skipped",
                             "reason": "recommendationTool already called in this attempt"
                         }
+
                         messages.append(
-                            ToolMessage(tool_call_id=tool_call["id"], content=json.dumps(observation))
+                            ToolMessage(
+                                tool_call_id=tool_call["id"],
+                                content=json.dumps(observation)
+                            )
                         )
                         continue
 
@@ -120,11 +133,16 @@ class BookBuyAgentRunner:
                     if tool_call["name"] == "recommendationTool":
                         all_steps.extend(observation.get("llm_steps", []))
 
+                    tool_message_payload = dict(observation)
+                    tool_message_payload.pop("llm_steps", None)
+
                     messages.append(
-                        ToolMessage(tool_call_id=tool_call["id"], content=json.dumps(observation))
+                        ToolMessage(
+                            tool_call_id=tool_call["id"],
+                            content=json.dumps(tool_message_payload)
+                        )
                     )
 
-                    # --- PRICE CHECK ---
                     if tool_call["name"] == "findPricesTool" and observation.get("status") == "found":
                         valid_offers = [
                             o for o in observation.get("offers", [])
@@ -143,7 +161,6 @@ class BookBuyAgentRunner:
                                 exit_current_attempt = True
                                 break
 
-                    # --- SUCCESS LOGIC ---
                     is_purchase_successful = (
                             tool_call["name"] == "buyBookTool"
                             and observation.get("status") in ["success", "confirmed"]
@@ -160,7 +177,6 @@ class BookBuyAgentRunner:
                             "steps": all_steps
                         }
 
-                    # --- FAILURE LOGIC / ATTEMPT TERMINATION ---
                     if tool_call["name"] == "recommendationTool" and observation.get("status") == "no_match":
                         return {
                             "status": "fail",
@@ -220,6 +236,7 @@ if __name__ == "__main__":
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
+        temperature=1,
     )
 
     # 2) Create the runner
