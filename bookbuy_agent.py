@@ -30,6 +30,8 @@ class BookBuyAgentRunner:
         all_steps = []
 
         for attempt_number in range(1, 4):
+            last_tool_result_for_trace = None
+
             system_context = f"""
     You are a ReAct BookBuy agent.
 
@@ -76,23 +78,14 @@ class BookBuyAgentRunner:
             recommendation_called = False
 
             for step in range(8):
-                ai_msg = self.llm_with_tools.invoke(messages)
-
-                last_tool_message = None
-                for m in reversed(messages):
-                    if isinstance(m, ToolMessage):
-                        last_tool_message = {
-                            "type": "ToolMessage",
-                            "content": m.content
-                        }
-                        break
-
                 runner_prompt = {
                     "system": system_context,
                     "user": user_prompt
                 }
-                if last_tool_message:
-                    runner_prompt["last_tool_result"] = last_tool_message
+                if last_tool_result_for_trace is not None:
+                    runner_prompt["last_tool_result"] = last_tool_result_for_trace
+
+                ai_msg = self.llm_with_tools.invoke(messages)
 
                 all_steps.append({
                     "module": "BookBuyAgentRunner",
@@ -115,6 +108,12 @@ class BookBuyAgentRunner:
                             "reason": "recommendationTool already called in this attempt"
                         }
 
+                        last_tool_result_for_trace = {
+                            "tool_name": tool_call["name"],
+                            "args": tool_call["args"],
+                            "result": observation
+                        }
+
                         messages.append(
                             ToolMessage(
                                 tool_call_id=tool_call["id"],
@@ -135,6 +134,12 @@ class BookBuyAgentRunner:
 
                     tool_message_payload = dict(observation)
                     tool_message_payload.pop("llm_steps", None)
+
+                    last_tool_result_for_trace = {
+                        "tool_name": tool_call["name"],
+                        "args": tool_args,
+                        "result": tool_message_payload
+                    }
 
                     messages.append(
                         ToolMessage(
@@ -215,7 +220,6 @@ class BookBuyAgentRunner:
             ),
             "steps": all_steps
         }
-
 
 if __name__ == "__main__":
     # ---- Manual smoke test for the ReAct agent runner ----
