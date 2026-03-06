@@ -7,12 +7,19 @@ function App() {
   {
     id: 1,
     sender: 'agent',
-    text: `Hi! I'm your Book Buying Agent 📚
-
-    Tell me what book you want and I'll do the rest:
-    I'll find the best match, compare prices across bookstores, choose the best deal, and buy it for you automatically.
-    
-    Fill the request below and click "Run Agent".`
+    text: `Hi! I'm your AI Book Buying Agent 📚
+  
+  Tell me what kind of book you're looking for and I'll handle the rest — I'll find the best match, compare prices across bookstores, and purchase the best deal for you automatically.
+  
+  In the request box you'll see a JSON form:
+  • prompt – describe the book you want
+  • address – your delivery address
+  • payment_token – payment token for checkout
+  • user_preferences – optional preferences (topics, length, style)
+  • disliked_titles – books you don't want
+  • already_read_titles – books you've already read
+  
+  Fill the fields and click "Run Agent".`
   }
   ])
 
