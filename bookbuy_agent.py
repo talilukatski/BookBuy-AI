@@ -31,77 +31,80 @@ class BookBuyAgentRunner:
 
         # Outer loop: Handles the 3-attempt limit
         for attempt_number in range(1, 4):
-            # Using your original 8-rule prompt as requested
             system_context = f"""
-You are a ReAct BookBuy agent.
+    You are a ReAct BookBuy agent.
 
-You have tools:
-- recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict
-- findPricesTool(book_title) -> dict (returns ALL offers)
-- buyBookTool(shop_id, book_title, address, payment_token) -> dict
+    You have tools:
+    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict
+    - findPricesTool(book_title) -> dict (returns ALL offers)
+    - buyBookTool(shop_id, book_title, address, payment_token) -> dict
 
-You have EXACTLY 3 attempts total.
-An attempt means: pick ONE candidate book and try to complete the whole process:
-recommendationTool -> findPricesTool -> buyBookTool.
+    You have EXACTLY 3 attempts total.
+    An attempt means: pick ONE candidate book and try to complete the whole process:
+    recommendationTool -> findPricesTool -> buyBookTool.
 
-Attempt rules (within ONE attempt):
-1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.
-2) If recommendationTool returns status="no_match": STOP ENTIRE RUN immediately.
-3) Call findPricesTool with the recommendation.title .
-4) If findPricesTool returns status="out_of_stock" or status="error": STOP this attempt immediately.
-5) If findPricesTool returns status="found":
-   - consider only offers with in_stock=true and price not null
-   - choose the lowest price
-   - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.
-   - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title
-6) Call buyBookTool exactly once.
-7) If buyBookTool returns status="success": you are DONE (final success).
-8) If buyBookTool returns status="failed": STOP this attempt immediately.
+    Attempt rules (within ONE attempt):
+    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.
+    2) If recommendationTool returns status="no_match": STOP ENTIRE RUN immediately.
+    3) Call findPricesTool with the recommendation.title .
+    4) If findPricesTool returns status="out_of_stock" or status="error": STOP this attempt immediately.
+    5) If findPricesTool returns status="found":
+       - consider only offers with in_stock=true and price not null
+       - choose the lowest price
+       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.
+       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title
+    6) Call buyBookTool exactly once.
+    7) If buyBookTool returns status="success": you are DONE (final success).
+    8) If buyBookTool returns status="failed": STOP this attempt immediately.
 
-IMPORTANT:
-- Do NOT retry within the same attempt. If something fails, stop the attempt.
+    IMPORTANT:
+    - Do NOT retry within the same attempt. If something fails, stop the attempt.
 
-CONTEXT:
-attempt_number: {attempt_number} / 3
-excluded_titles: {json.dumps(excluded_titles, ensure_ascii=False)}
-user_preferences: {json.dumps(self.user.user_preferences, ensure_ascii=False)}
-address: {self.user.address}
-payment_token: {self.user.payment_token}
-"""
+    CONTEXT:
+    attempt_number: {attempt_number} / 3
+    excluded_titles: {json.dumps(excluded_titles, ensure_ascii=False)}
+    user_preferences: {json.dumps(self.user.user_preferences, ensure_ascii=False)}
+    address: {self.user.address}
+    payment_token: {self.user.payment_token}
+    """
 
             messages = [
                 SystemMessage(content=system_context),
                 HumanMessage(content=user_prompt)
             ]
 
-            # Inner loop: Manual ReAct steps (Thinking -> Action -> Observation)
             exit_current_attempt = False
             recommendation_called = False
+
             for step in range(8):
-                # 1. Ask the LLM for the next step
                 ai_msg = self.llm_with_tools.invoke(messages)
+
+                all_steps.append({
+                    "module": "BookBuyAgentRunner",
+                    "prompt": [
+                        {
+                            "type": type(m).__name__,
+                            "content": getattr(m, "content", "")
+                        }
+                        for m in messages
+                    ],
+                    "response": {
+                        "content": ai_msg.content,
+                        "tool_calls": ai_msg.tool_calls or []
+                    }
+                })
+
                 messages.append(ai_msg)
 
-                # If no tool calls are generated, the LLM has finished its reasoning
                 if not ai_msg.tool_calls:
                     break
 
-                # 2. Execute the tool calls generated by the LLM
                 for tool_call in ai_msg.tool_calls:
-                    # Prevent multiple recommendation calls in the same attempt
                     if tool_call["name"] == "recommendationTool" and recommendation_called:
                         observation = {
                             "status": "skipped",
                             "reason": "recommendationTool already called in this attempt"
                         }
-
-                        all_steps.append({
-                            "attempt": attempt_number,
-                            "module": tool_call["name"],
-                            "prompt": tool_call["args"],
-                            "response": observation
-                        })
-
                         messages.append(
                             ToolMessage(tool_call_id=tool_call["id"], content=json.dumps(observation))
                         )
@@ -111,18 +114,15 @@ payment_token: {self.user.payment_token}
                         recommendation_called = True
 
                     selected_tool = {t.name: t for t in self.tools}[tool_call["name"]]
-                    observation = selected_tool.invoke(tool_args := tool_call["args"])
+                    tool_args = tool_call["args"]
+                    observation = selected_tool.invoke(tool_args)
 
-                    # Log the step for the final response report
-                    all_steps.append({
-                        "attempt": attempt_number,
-                        "module": tool_call["name"],
-                        "prompt": tool_args,
-                        "response": observation
-                    })
+                    if tool_call["name"] == "recommendationTool":
+                        all_steps.extend(observation.get("llm_steps", []))
 
-                    # Add the tool observation back to the conversation history
-                    messages.append(ToolMessage(tool_call_id=tool_call["id"], content=json.dumps(observation)))
+                    messages.append(
+                        ToolMessage(tool_call_id=tool_call["id"], content=json.dumps(observation))
+                    )
 
                     # --- PRICE CHECK ---
                     if tool_call["name"] == "findPricesTool" and observation.get("status") == "found":
@@ -144,10 +144,9 @@ payment_token: {self.user.payment_token}
                                 break
 
                     # --- SUCCESS LOGIC ---
-                    # Matches rule #7. We include 'confirmed' because the backend overrides 'success'.
                     is_purchase_successful = (
-                            tool_call["name"] == "buyBookTool" and
-                            observation.get("status") in ["success", "confirmed"]
+                            tool_call["name"] == "buyBookTool"
+                            and observation.get("status") in ["success", "confirmed"]
                     )
 
                     if is_purchase_successful:
@@ -162,7 +161,6 @@ payment_token: {self.user.payment_token}
                         }
 
                     # --- FAILURE LOGIC / ATTEMPT TERMINATION ---
-                    # Matches rules #2, #4, and #8.
                     if tool_call["name"] == "recommendationTool" and observation.get("status") == "no_match":
                         return {
                             "status": "fail",
@@ -173,18 +171,19 @@ payment_token: {self.user.payment_token}
                             ),
                             "steps": all_steps
                         }
+
                     should_stop_this_attempt = (
-                            (tool_call["name"] == "findPricesTool" and observation.get("status") in ["out_of_stock", "error"]) or
+                            (tool_call["name"] == "findPricesTool" and observation.get("status") in ["out_of_stock",
+                                                                                                     "error"])
+                            or
                             (tool_call["name"] == "buyBookTool" and observation.get("status") == "failed")
                     )
 
                     if should_stop_this_attempt:
-                        # Add the title to excluded_titles for the next attempt
                         title_to_exclude = observation.get("title") or tool_args.get("book_title")
                         if title_to_exclude and title_to_exclude not in excluded_titles:
                             excluded_titles.append(title_to_exclude)
 
-                        # Set flag to break out of the ReAct steps and move to the next attempt
                         exit_current_attempt = True
                         break
 
@@ -221,7 +220,6 @@ if __name__ == "__main__":
         api_key=OPENAI_API_KEY,
         base_url=OPENAI_BASE_URL,
         max_tokens=1024,
-        temperature=1,
     )
 
     # 2) Create the runner
@@ -254,6 +252,5 @@ if __name__ == "__main__":
             print(f"\nTOOL: {s['module']}")
             print("INPUT:", s["prompt"])
             print("OUTPUT:", s["response"])
-
 
     print("\nDone.\n")
