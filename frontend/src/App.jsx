@@ -3,8 +3,8 @@ import './App.css'
 import ChatInterface from './components/ChatInterface'
 
 function App() {
-  const [messages, setMessages] = useState([
-  {
+    const [messages, setMessages] = useState([
+{
   id: 1,
   sender: 'agent',
   text: `Hi! I'm your AI Book Buying Agent 📚
@@ -12,12 +12,15 @@ function App() {
 Tell me what kind of book you're looking for and I'll handle the rest — I'll find the best match, compare prices across bookstores, and purchase the best deal for you automatically.
 
 In the request box you'll see a JSON form:
-• prompt – describe the book you want
-• address – your delivery address
-• payment_token – payment token for checkout
-• user_preferences – optional preferences (topics, length, style)
-• disliked_titles – books you don't want
-• already_read_titles – books you've already read
+
+• prompt (string) – describe the type of book you want  
+• address (string) – your delivery address  
+• payment_token (string) – payment token used for checkout  
+• user_preferences (string[]) – optional preferences like topics, style, or book length  
+• disliked_titles (string[]) – books you do NOT want recommended  
+• already_read_titles (string[]) – books you've already read  
+
+You can leave **user_preferences**, **disliked_titles**, or **already_read_titles** empty if you don't have any.
 
 Fill the fields and click "Run Agent".`
 }
