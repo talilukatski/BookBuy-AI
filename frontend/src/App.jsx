@@ -5,23 +5,23 @@ import ChatInterface from './components/ChatInterface'
 function App() {
   const [messages, setMessages] = useState([
   {
-    id: 1,
-    sender: 'agent',
-    text: `Hi! I'm your AI Book Buying Agent 📚
-  
-  Tell me what kind of book you're looking for and I'll handle the rest — I'll find the best match, compare prices across bookstores, and purchase the best deal for you automatically.
-  
-  In the request box you'll see a JSON form:
-  • prompt – describe the book you want
-  • address – your delivery address
-  • payment_token – payment token for checkout
-  • user_preferences – optional preferences (topics, length, style)
-  • disliked_titles – books you don't want
-  • already_read_titles – books you've already read
-  
-  Fill the fields and click "Run Agent".`
-  }
-  ])
+  id: 1,
+  sender: 'agent',
+  text: `Hi! I'm your AI Book Buying Agent 📚
+
+Tell me what kind of book you're looking for and I'll handle the rest — I'll find the best match, compare prices across bookstores, and purchase the best deal for you automatically.
+
+In the request box you'll see a JSON form:
+• prompt – describe the book you want
+• address – your delivery address
+• payment_token – payment token for checkout
+• user_preferences – optional preferences (topics, length, style)
+• disliked_titles – books you don't want
+• already_read_titles – books you've already read
+
+Fill the fields and click "Run Agent".`
+}
+])
 
   // This function now receives a full JSON payload instead of plain text
   const handleSendMessage = async (payload) => {
