@@ -92,9 +92,9 @@ async def get_agent_info():
                 ]
             },
             {
-                "prompt": "I'm looking for an interesting book about tali daniel and offek",
-                "address": "Tel Aviv",
-                "payment_token": "9876543",
+                "prompt": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai",
+                "address": "Technion, Haifa",
+                "payment_token": "123456",
                 "user_preferences": [],
                 "disliked_titles": [],
                 "already_read_titles": []
@@ -375,22 +375,20 @@ async def get_agent_info():
             },
             {
                 "prompt": {
-                    "prompt": "I'm looking for an interesting book about tali daniel and offek",
-                    "address": "Tel Aviv",
-                    "payment_token": "9876543",
+                    "prompt": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai",
+                    "address": "Technion, Haifa",
+                    "payment_token": "123456",
                     "user_preferences": [],
                     "disliked_titles": [],
                     "already_read_titles": []
                 },
-                "status": "ok",
-                "error": None,
-                "response": "Sorry — I couldn't find any suitable recommendation for your request, so I didn’t proceed to purchase attempts. Try broadening the topic or updating your preferences, and I’ll try again.",
+                "full_response": "Sorry — I couldn't find any suitable recommendation for your request, so I didn’t proceed to purchase attempts. Try broadening the topic or updating your preferences, and I’ll try again.",
                 "steps": [
                     {
                         "module": "BookBuyAgentRunner",
                         "prompt": {
-                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: []\n    user_preferences: []\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
-                            "user": "I'm looking for an interesting book about tali daniel and offek"
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not null\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: []\n    user_preferences: []\n    address: Technion, Haifa\n    payment_token: 123456\n    ",
+                            "user": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai"
                         },
                         "response": {
                             "content": "",
@@ -398,11 +396,11 @@ async def get_agent_info():
                                 {
                                     "name": "recommendationTool",
                                     "args": {
-                                        "user_prompt": "I'm looking for an interesting book about tali daniel and offek",
+                                        "user_prompt": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai",
                                         "excluded_titles": [],
                                         "user_preferences": []
                                     },
-                                    "id": "call_kmz1x7gp7p57A9QqCnq9N8Qy",
+                                    "id": "call_MY1oXTL8KsAtYeEPcT1kuSFe",
                                     "type": "tool_call"
                                 }
                             ]
@@ -411,17 +409,9 @@ async def get_agent_info():
                     {
                         "module": "DescriptionSelector",
                         "prompt": {
-                            "user_prompt": "I'm looking for an interesting book about tali daniel and offek",
+                            "user_prompt": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai",
                             "user_preferences": [],
                             "candidate_books": [
-                                {
-                                    "title": "Tamar",
-                                    "authors": "Mal Peet",
-                                    "publishedDate": "2015-09-22",
-                                    "categories": "Fiction",
-                                    "bookLength": 396,
-                                    "description": "From acclaimed British sensation Mal Peet comes a masterful story of adventure, love, secrets, and betrayal in time of war, both past and present. When her grandfather dies, Tamar inherits a box containing a series of clues and coded messages. Out of the past, another Tamar emerges, a man involved in the terrifying world of resistance fighters in Nazi-occupied Holland half a century before. His story is one of passionate love, jealousy, and tragedy set against the daily fear and casual horror of the Second World War -- and unraveling it is about to transform Tamar’s life forever."
-                                },
                                 {
                                     "title": "Tales Out of Shul: The Unorthodox Journal of an Orthodox Rabbi",
                                     "authors": "Emanuel Feldman",
@@ -431,54 +421,61 @@ async def get_agent_info():
                                     "description": "If there were a hall of fame of America's Orthodox rabbinate, Emanuel Feldman would be a charter member. Long before the word teshuvah became fashionable, he took a moribund congregation in Atlanta, turned it into a vibrant community, and led it for 40 years. In this poignant, delightful, provocative, uproarious, idealistic, uplifting journal, Rabbi Feldman takes us behind the pulpit as no one ever has before. Meet saints and scoundrels, righteous people and sinners, the movers and the meek. Tag along on countless everyday adventures. Taste sweet success and bitter failure. A marvelous book, by a heroic leader, graceful writer, and incisive thinker. Don't miss it! A Shaar Press Publication."
                                 },
                                 {
-                                    "title": "The Devil's Shepherd: A Novel",
-                                    "authors": "Steven Hartov",
-                                    "publishedDate": "2013-03-04",
-                                    "categories": "Fiction",
-                                    "bookLength": 215,
-                                    "description": "Israeli Military Intelligence agents Eytan Eckstein and Benni Baum are summoned once more to undertake a mission that could be their last. A defecting Czech spy claims to know the identity of a mole within Israel's top secret nuclear program, but he has fled to Africa and will only turn over the information if a string of his demands are met. Thus begins \"Operation Sorcerer,\" a quest to extricate the Czech spy, rescue a throng of desperate refugees, and survive the onslaught of Africa warlords determined to destroy the Israeli heroes. Steven Hartov was born in the United States and educated at Boston University. After serving in the U.S. Military Sealift Command, he emigrated to Israel and served in the Israel Defense Forces parachute corps and Military Intelligence special operations. He is the author of the espionage trilogy, \"The Heat of Ramadan,\" \"The Nylon Hand of God,\" and \"The Devil's Shepherd,\" and co-author of the New York Times best seller \"In the Company of Heroes\" and \"The Night Stalkers.\" For six years, Hartov helmed \"Special Operations Report\" as Editor-in-Chief. He currently serves as a Task Force commander in the New York Guard and is writing a new novel. Readers held in suspense throughout this galloping plot will end with their nails in their mouths, awaiting the next installment. -Kirkus Reviews A superb"
+                                    "title": "Uniter of Heaven and Earth: Rabbi Meshullam Feibush Heller of Zbarazh and the Rise of Hasidism in Eastern Galicia (Suny Series in Judaica) (Suny ... Hermeneutics, Mysticism and Religion)",
+                                    "authors": "Miles Krassen",
+                                    "publishedDate": "2012-02-01",
+                                    "categories": "History",
+                                    "bookLength": 151,
+                                    "description": "A clear and penetrating account of the basis of Hasidic mysticism. Includes translations of many texts never before available in English."
                                 },
                                 {
-                                    "title": "Weirdo's war",
-                                    "authors": "Michael Coleman",
-                                    "publishedDate": "2008-10-01",
-                                    "categories": "Adventure stories",
-                                    "bookLength": 266,
-                                    "description": "Daniel and Tosh are very different, so when they are put together on an Outward Bound course they are not happy. But when they fall in a cave with their teacher, who has broken his leg, they discover they each have skills that the other can draw on."
+                                    "title": "Rescued Year 1ST Edition Paperback",
+                                    "authors": "Aaron Lansky",
+                                    "publishedDate": "2005-09-02",
+                                    "categories": "History",
+                                    "bookLength": 335,
+                                    "description": "account of his journey is both “extraordinary” (The Boston Globe) and “entertaining” (Los Angeles Times). “Lansky charmingly describes his adventures as president and founder of the National Yiddish Book Center, which now has new headquarters at Hampshire College in Amherst, Mass. To Lansky, Yiddish literature represented an important piece of Jewish cultural history, a link to the past and a memory of a generation lost to the Holocaust. Lansky’s account of salvaging books is both hilarious and moving, filled with Jewish humor, conversations with elderly Jewish immigrants for whom the books evoke memories of a faraway past, stories of desperate midnight rescues from rain-soaked dumpsters, and touching accounts of Lansky’s trips to what were once thriving Jewish communities in Europe. The book is a testimony to his love of Judaism and literature and his desire to make a difference in the world.” —Publishers Weekly"
                                 },
                                 {
-                                    "title": "The Sacrifice of Tamar",
-                                    "authors": "Naomi Ragen",
-                                    "publishedDate": "2010-07-20",
-                                    "categories": "Fiction",
-                                    "bookLength": 285,
-                                    "description": "Tamar Finegold is twenty-one years old, the happy, beautiful bride of a rising young Rabbi in one of Brooklyn's insulated, ultra-Orthodox Jewish communities. Having married the man of her dreams and taken her place as a wife—and hopefully soon-to-be mother—in her community, Tamar feels as though the world is at her feet. But her secure, predictable existence is brought to an abrupt end when she is raped by an intruder. Fearing the unbearable stigma and threat to her marriage that could result from telling the truth, Tamar makes a fateful decision that changes her life forever. Her feeling that she did the only thing she could under the circumstances explodes when years later a shocking, undreamed of turn of events finally forces her to confront her past, once and for all"
+                                    "title": "The Other New York Jewish Intellectuals (Reappraisals in Jewish Social and Intellectual History)",
+                                    "authors": "Carole S Kessner",
+                                    "publishedDate": "1994-10-01",
+                                    "categories": "Biography & Autobiography",
+                                    "bookLength": 347,
+                                    "description": "Irving Howe. Saul Bellow. Lionel Trilling. These are names that immediately come to mind when one thinks of the New York Jewish intellectuals of the late thirties and forties. And yet the New York Jewish intellectual community was far larger and more diverse than is commonly thought. In The Other New York Jewish Intellectuals we find a group of thinkers who may not have had widespread celebrity status but who fostered a real sense of community within the Jewish world in these troubled times. What unified these men and women was their commitment and allegiance to the Jewish people. Here we find Hayim Greenberg, Henry Hurwitz, Marie Syrkin, Maurice Samuel, Ben Halperin, Trude Weiss-Rosmarin, Morris Raphael Cohen, Ludwig Lewisohn, Milton Steinberg, Will Herberg, A. M. Klein, and Mordecai Kaplan, and many others. Divided into 3 sections--Opinion Makers, Men of Letters, and Spiritual Leaders--the book will be of particular interest to students and others interested in Jewish studies, American intellectual history, as well as history of the 30s and 40s."
                                 },
                                 {
-                                    "title": "Passion, Betrayal and Killer Highlights",
-                                    "authors": "Kyra Davis",
-                                    "publishedDate": "2012-06-15",
+                                    "title": "Thirst: The Desert Trilogy",
+                                    "authors": "Shulamith Hareven",
+                                    "publishedDate": "2015-01-06",
                                     "categories": "Fiction",
-                                    "bookLength": 219,
-                                    "description": "Sophie Katz has just offered a man $12,000 for his services… Is she desperate or just meshugeneh? Considering the kind of disasters that usually befall the half-black, half-Jewish mystery writer, probably both. Because the last time Sophie saw sexy P.I. Anatoly Darinsky, he practically danced a jig when she waved goodbye &151; a normal reaction for a man who'd nearly bought the farm trying to protect her from her own foolishness. What are the chances he'd agree to take incriminating pictures of her sister's philandering husband? Or that he'd let her tag along &151; you know…for research? But when her brother-in-law turns up dead and her sister becomes the prime suspect, Sophie's priority is finding the real killer. With or without Anatoly's help. Her brother-in-law's secret life yields plenty of suspects, but the San Francisco police aren't taking any of them seriously. So Sophie does what comes naturally to her: she stirs up trouble (to lure the killer out, of course). But if her crazy plan works, will Anatoly be there to protect her this time?"
+                                    "bookLength": 221,
+                                    "description": "the Academy of the Hebrew language. In 1962, she published her first book, a poetry volume titled Predatory Jerusalem. After that, she wrote and translated prose books and plays. She published essays and articles about Israeli society and culture in literary journals Masa, Orlogin, and Keshet, and in newspapers Al Ha-Mishmar, Maariv, and Yedioth Ahronoth. Her books have been translated into twenty-one languages. Hareven was an activist for Peace Now, and in 1995, the French weekly L'Express listed her among the 100 women \"who move the world.” Hillel Halkin is an American-born Israeli translator, biographer, literary critic, and novelist, who has lived in Israel since 1970. Halkin translates from Hebrew and Yiddish literature into English. He has translated Sholem Aleichem's Tevye the Dairyman, and major Hebrew and Israeli novelists, among them Yosef Haim Brenner, S. Y. Agnon, Shulamith Hareven, A. B. Yehoshua, Amos Oz, and Meir Shalev."
                                 },
                                 {
-                                    "title": "The Tamarind Seed",
-                                    "authors": "Evelyn Anthony",
-                                    "publishedDate": "2015-11-17",
+                                    "title": "The Last Kabbalist of Lisbon",
+                                    "authors": "Richard Zimler",
+                                    "publishedDate": "2000-03-15",
                                     "categories": "Fiction",
-                                    "bookLength": 295,
-                                    "description": "An Englishwoman falls for a Russian wanted by Intelligence on both sides of the Iron Curtain in this classic tale of Cold War espionage As executive assistant to a senior diplomat at the UN, widow Judith Farrow spends most of her working hours handling classified information. When her boss insists she take some time off in Barbados, she’s happy to escape her dead-end love affair with a very prominent, very married British attaché. But from the moment Judith meets Feodor Sverdlov, her low-key vacation turns into an international nightmare that threatens her job—and her life. A disillusioned military attaché working for the Soviet Embassy in Washington, DC, Sverdlov is known as a very dangerous man east and west of the Iron Curtain. Neither the British SIS nor the CIA believes his trip to the West Indies was an accident of fate. Suddenly Judith is perceived as a high-level risk, and Intelligence agent Jack Loder is dispatched to neutralize the situation. Now, Judith and Loder must identify the traitor in their midst—a mole code-named “Blue,” who’s firmly entrenched in DC’s power circles and preparing to deliver an irreversible blow to western civilization—before it’s too late."
+                                    "bookLength": 769,
+                                    "description": "Just a few years earlier, Jews living in Portugal were dragged to the baptismal font and forced to convert to Christianity. Many of these New Christians persevered in their Jewish prayers and rituals in secret and at great risk; the hidden, arcane practices of the kabbalists, a mystical sect of Jews, continued as well. One such secret Jew was Berekiah Zarco, an intelligent young manuscript illuminator. Inflamed by love and revenge, he searches, in the crucible of the raging pogrom, for the killer of his beloved uncle Abraham, a renowned kabbalist and manuscript illuminator, discovered murdered in a hidden synagogue along with a young girl in dishabille. Risking his life in streets seething with mayhem, Berekiah tracks down answers among Christians, New Christians, Jews, and the fellow kabbalists of his uncle, whose secret language and codes by turns light and obscure the way to the truth he seeks. A marvelous story, a challenging mystery, and a telling tale of the evils of intolerance, The Last Kabbalist of Lisbon both compels and entertains."
+                                },
+                                {
+                                    "title": "Selected Stories of Sholom Aleichem (The Modern Library of the World's Best Books)",
+                                    "authors": "Sholem Aleichem",
+                                    "publishedDate": "1956",
+                                    "categories": "Jews",
+                                    "bookLength": 386,
+                                    "description": "(The Modern library of the World's best books [145])."
                                 }
                             ]
                         },
                         "response": {
-                            "raw_output": ""
+                            "raw_output": "{ \"titles\": [] }"
                         }
                     }
                 ]
             }
-
         ]
     }
 
