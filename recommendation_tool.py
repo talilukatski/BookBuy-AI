@@ -99,26 +99,22 @@ def llm_select_books_by_description(
     prompt = f"""
     You are an expert book curator.
 
-    Your job is to choose the books that best match the user's request from the candidate list.
+    Choose books ONLY from the candidate books.
 
-    Think of this step as a filtering stage:
-    - If several books clearly match the request, return the best 3–4.
-    - If only one or two books reasonably match, return only those.
-    - If none of the books really fit the user's request, return an empty list.
+    Rules:
+    - Prioritize matching the user's request.
+    - Consider user preferences important, but do not be overly strict.
+    - If a book generally fits the request, it can still be recommended even if one preference is slightly off.
+    - If a preference conflicts with all candidates, relax the least important ones (but still prefer books that follow them).
+    - If book length is specified, prefer books in that range.
 
-    User preferences are important, but they are soft constraints. 
-    If a book fits the main request well, it can still be selected even if a minor preference is not perfect.
-
-    Only choose books that genuinely match the request.
-    Do not include books that are only loosely related just to fill the list.
+    Return 3–4 book titles whenever possible.
+    Return fewer only if there are truly not enough reasonable matches.
 
     Return ONLY valid JSON.
-
-    Output format:
-    {{ "titles": ["Book Title 1", "Book Title 2"] }}
-
-    If no book reasonably matches:
-    {{ "titles": [] }}
+    Output:
+    {{ "titles": ["Book Title 1", "Book Title 2", "Book Title 3"] }}
+    If none match: {{ "titles": [] }}
 
     User request:
     {user_prompt}
@@ -204,42 +200,14 @@ def llm_choose_book_by_reviews(
 ) -> Tuple[str, List[Dict[str, Any]]]:
     """
     Chooses ONE book title based on request + reviews.
-
-    Logic:
-    - If description_books is empty -> return ""
-    - If none of the candidate books has reviews -> return the first candidate
-    - Otherwise ask the LLM to choose using reviews
+    Returns:
+      - selected title
+      - llm steps for tracing
     """
     description_books = attach_reviews(description_books)
 
     if not description_books:
         return "", []
-
-    fallback_title = description_books[0]["title"]
-
-    # check if any book actually has reviews
-    has_any_reviews = any(book.get("summary_reviews") for book in description_books)
-
-    llm_step_base = {
-        "module": "ReviewFinalSelector",
-        "prompt": {
-            "user_prompt": user_prompt,
-            "candidate_books_with_reviews": description_books,
-            "fallback_title_if_no_reviews_for_all": fallback_title,
-        },
-        "response": {}
-    }
-
-    # If nobody has reviews -> keep ranking from description step
-    if not has_any_reviews:
-        llm_step = {
-            **llm_step_base,
-            "response": {
-                "raw_output": "",
-                "decision": "No reviews available for any candidate; selected first candidate from description step."
-            }
-        }
-        return fallback_title, [llm_step]
 
     llm = ChatOpenAI(
         model=LLM_MODEL,
@@ -250,43 +218,51 @@ def llm_choose_book_by_reviews(
     )
 
     prompt = f"""
-You are an expert reader and book curator. Choose ONE final book for the user.
+    You are an expert reader and book curator. Choose ONE final book for the user.
 
-You will receive a user request and a list of candidate books (in ranked order from the previous step).
+    You will receive a user request and a list of candidate books (in ranked order from the previous step).
 
-For each book:
-- First ensure it fits the user's request.
-- Then use the reviews to help choose the best option.
+    For each book:
+    - First ensure it fits the user's request.
+    - Then use the reviews to help choose the best option when reviews are available.
 
-Reviews are important for the final decision.
-Each review includes "summary_review" and "review_score", and each book may also have an "avg_score".
+    Reviews are important for the final decision.
+    Each review includes "summary_review" and "review_score", and each book may also have a "book_overall_score".
+    Prefer books whose reviews suggest the book is engaging and worthwhile.
 
-However:
-- A book should NOT be rejected only because it has few reviews.
-- If reviews do not clearly distinguish between books, use the original candidate order as a tie-breaker.
-- Choose ONLY from the provided candidate books.
+    However:
+    - A book should NOT be rejected only because it has few or no reviews.
+    - If reviews are missing, choose the book that best fits the user's request based on the description and metadata.
+    - If two books fit the request similarly, prefer the one with stronger reviews.
+    - If reviews are similar, use the original candidate order as a tie-breaker.
 
-Return ONLY valid JSON.
-Output format:
-{{
-  "title": "Book Title"
-}}
+    Choose ONLY from the provided candidate books.
 
-If none of the candidate books reasonably match, return:
-{{ "title": "" }}
+    Return ONLY valid JSON.
+    Output format:
+    {{
+      "title": "Book Title"
+    }}
 
-User request:
-{user_prompt}
+    If none of the candidate books reasonably match, return:
+    {{ "title": "" }}
 
-Candidate books with reviews:
-{json.dumps(description_books, ensure_ascii=False)}
-""".strip()
+    User request:
+    {user_prompt}
+
+    Candidate books with reviews:
+    {json.dumps(description_books, ensure_ascii=False)}
+    """.strip()
 
     response = llm.invoke(prompt)
     raw = (response.content or "").strip()
 
     llm_step = {
-        **llm_step_base,
+        "module": "ReviewFinalSelector",
+        "prompt": {
+            "user_prompt": user_prompt,
+            "candidate_books_with_reviews": description_books
+        },
         "response": {
             "raw_output": response.content or ""
         }
@@ -401,18 +377,3 @@ def recommendation_tool(
         "llm_steps": llm_steps,
     }
 
-
-if __name__ == "__main__":
-    user_prompt = "Im looking for a scholarly Christian book on the biblical theology and purpose of the Church."
-    disliked_titles = []
-    already_read_titles = ["Wonderful Worship in Smaller Churches"]
-    user_preferences = ["book length: between 100 and 400"]
-    excluded_titles = list(set(disliked_titles + already_read_titles))
-
-    book = recommendation_tool(
-        user_prompt=user_prompt,
-        excluded_titles=excluded_titles,
-        user_preferences=user_preferences,
-    )
-
-    print(json.dumps(book, ensure_ascii=False, indent=2))
