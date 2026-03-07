@@ -1,34 +1,43 @@
-# BookBuyingAgent
+# BookBuying Agent Project
 
-## Project Structure
+This project implements a simple AI agent that can recommend and purchase books.
 
-- `agent_server.py`: Main AI Agent server.
-- `recommendation_tool.py`: Core logic for book recommendations.
-- `mock_retailer/`: Mock e-commerce service with book catalogs.
-- `frontend/`: React-based user interface.
-- `scripts/`: Maintenance and utility scripts (e.g., catalog enrichment, architecture diagram).
-- `tests/`: Integration tests and simulations.
+The agent receives a natural language request from the user, finds relevant books using semantic search and an LLM, and can search partner shops to purchase the selected book.
 
-## Getting Started
+## Main Services
 
-1. **Prerequisites**: Ensure you have **Python** and **Node.js** installed.
-2. **Run the setup script**:
+### `app.py`
 
-   **Option A: Recommended (Persist Venv)**
-   To run the script and keep the virtual environment active in your terminal (recommended for development), run these two commands:
-   ```powershell
-   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
-   . .\start_all.ps1
-   ```
-   *Note: The leading `.` and space (dot-sourcing) are crucial for keeping the venv active.*
+This is the **main application that runs on Render**.
+It starts the FastAPI service used by the frontend and connects requests to the agent.
 
-   **Option B: Quick Start (No Persistence)**
-   If you just want to run the app without keeping the environment active:
-   ```powershell
-   powershell -ExecutionPolicy Bypass -File .\start_all.ps1
-   ```
+### `agent_server.py`
 
-   The script will automatically:
-   - Create a Python virtual environment and install dependencies.
-   - Install Node.js packages for the frontend.
-   - Launch both the Backend API and Frontend UI.
+This file exposes the **API of the agent**.
+The frontend communicates with this API in order to interact with the agent.
+
+The agent can:
+
+* recommend books
+* search shops for prices
+* buy books
+
+### `mock_retailer/`
+
+This folder contains a **mock implementation of book stores**.
+
+It simulates external retailer services and exposes an API that allows the agent to:
+
+* search for a book in different shops
+* get price and stock information
+* simulate purchasing a book
+
+These endpoints are used by the agent tools.
+
+## Other Files
+
+* `recommendation_tool.py` – logic for recommending books using RAG and an LLM
+* `find_and_buy_tools.py` – tools for searching shops and purchasing books
+* `bookbuy_agent.py` – agent setup and orchestration
+* `config.py` – configuration and environment variables
+* `ingest.py` – script used to ingest books into the vector database (pinecone)
