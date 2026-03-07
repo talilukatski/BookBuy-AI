@@ -116,7 +116,7 @@ async def get_agent_info():
                         "Life of Pi"
                     ]
                 },
-                "full_response": "Success! Bought 'How Animals Live (The Amazing World of Animals in the Wild)' from fiction_boutique (Txn: TXN-779FF196). Estimated delivery: 3-5 business days to Tel Aviv.",
+                "full_response": "Success! Bought 'How Animals Live (The Amazing World of Animals in the Wild)' from fiction_boutique (Txn: TXN-B76AA29E). Estimated delivery: 3-5 business days to Tel Aviv.",
                 "steps": [
                     {
                         "module": "BookBuyAgentRunner",
@@ -130,7 +130,7 @@ async def get_agent_info():
                                 {
                                     "name": "recommendationTool",
                                     "args": {
-                                        "user_prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
+                                        "user_prompt": "Find a single book about wildlife that explains how animals survive and interact in nature. Prefer books focused on animal behavior, ecology, and nature; length around 150-300 pages. Avoid excluded titles.",
                                         "excluded_titles": [
                                             "The Jungle Book",
                                             "Life of Pi"
@@ -143,7 +143,218 @@ async def get_agent_info():
                                             "book length: around 150-300 pages"
                                         ]
                                     },
-                                    "id": "call_0NXt9fEoFLzaaXSRPd0BBhtx",
+                                    "id": "call_hhSJIuBJePpTDuO0CzsN3gDk",
+                                    "type": "tool_call"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "module": "DescriptionSelector",
+                        "prompt": {
+                            "user_prompt": "Find a single book about wildlife that explains how animals survive and interact in nature. Prefer books focused on animal behavior, ecology, and nature; length around 150-300 pages. Avoid excluded titles.",
+                            "user_preferences": [
+                                "animals",
+                                "wildlife",
+                                "nature",
+                                "animal behavior",
+                                "book length: around 150-300 pages"
+                            ],
+                            "candidate_books": [
+                                {
+                                    "title": "Wildlife Biology",
+                                    "authors": "Raymond Fredric Dasmann, Raymond F. Dasmann",
+                                    "publishedDate": "1981-01-19",
+                                    "categories": "Nature",
+                                    "bookLength": 339,
+                                    "description": "What good are wild animals?; Wildlife values; Wildlife as a natural resource; The status of wildlife conservation; The ten-thousand year war; Everything tied together; Functioning of ecosystems; Ecosystem development; Change and degradation; Distribution of biotic communities; Ecologic niches; A place to live; Enough to eat; Cover; Water; Quantity versus interspresion; Limiting factors; Introducing wildlife populations; Density and biomass; Population structure; Natality; Mortality; Interaction of population; Characteristics; Turnover; Productivity; Territory and travels; Movements internal to the population area; Movements external to the population; Group size and spacing; Territory; Significance of spacing and movements; Too many mice, too few elephants; New populations in new habitats; Some real life problems; The annual cycle of populations; Shootable surplus; Stocking of game; Stability of populations; Evolutionary strategies; Levelling off; The many meanings of carrying capacity; Declining diversity; Species extinction and area size; Destruction of habitat; Nature reserves; Animal trade; International assistance; The controllers.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "Animal ecology (Biology series)",
+                                    "authors": "Luigi Boitani, T. K. Fuller",
+                                    "publishedDate": "2000-01",
+                                    "categories": "Science",
+                                    "bookLength": 284,
+                                    "description": "This book provides an analysis of frequently used research techniques in animal ecology, identifying their limitations and misuses, as well as possible solutions to avoid such pitfalls. The contributors provide an overarching account of central theoretical and methodological controversies. The editors have forged comprehensive presentations of key topics in animal ecology, such as territory and home range estimates, habitation evaluation, population viability analysis, GIS mapping, and measuring the dynamics of societies.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "Illustrated Nature Encyclopedia: Animals in the Wild (Illustrated Wildlife Encyclopedia)",
+                                    "authors": "Tom Jackson",
+                                    "publishedDate": "2009",
+                                    "categories": "Animals",
+                                    "bookLength": 341,
+                                    "description": "This comprehensive guide provides information about North American habitats and the creatures found in them. It details the physiology and anatomy of each species, together with information on their ecology and evolution, their senses, survival and reproductive habitats."
+                                },
+                                {
+                                    "title": "Dinnertime for animals (Books for young explorers)",
+                                    "authors": "Jane R. McCauley",
+                                    "publishedDate": "1991",
+                                    "categories": "Animals",
+                                    "bookLength": 277,
+                                    "description": "Explains how different animals living in the wild have divergent diets, eating habits, and methods of gathering food for survival."
+                                },
+                                {
+                                    "title": "Prey",
+                                    "authors": "Michael Chinery",
+                                    "publishedDate": "2000",
+                                    "categories": "Predation (Biology)",
+                                    "bookLength": 246,
+                                    "description": "Tropical rainforests cover only about 6% of the earth's surface, yet they are home to more than half the world's species. This book looks at the biology and behaviour of predators and prey describing how they live together in harmony and balance and how vital they are to the wellbeing of the whole world. It is one of a series of books which aims to provide an understanding of the unique ecosystems of the rainforest. It describes the amazing plants and animals and how they interact, and addresses local and global environmental and conservation issues.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "Wildlife in America's History",
+                                    "authors": "Peter Matthiessen",
+                                    "publishedDate": "1977",
+                                    "categories": "Animals",
+                                    "bookLength": 729,
+                                    "description": "This classic history of the rare, threatened, and extinct animals of North America is a dramatic chronicle of man's role in the disappearance of great and small species of our land. \"Should be the number one source volume for everyone who embraces the philosophy of conservation\".--Roger Tory Peterson. Illustrations throughout."
+                                },
+                                {
+                                    "title": "How Animals Live (The Amazing World of Animals in the Wild)",
+                                    "authors": "Bernard Stonehouse, Esther Bertram",
+                                    "publishedDate": "2004",
+                                    "categories": "Juvenile Nonfiction",
+                                    "bookLength": 266,
+                                    "description": "Presents an overview of the characteristic behavior, habits, and survival skills of various types of animals around the world.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                }
+                            ]
+                        },
+                        "response": {
+                            "raw_output": "{ \"titles\": [\"Animal ecology (Biology series)\", \"Prey\", \"How Animals Live (The Amazing World of Animals in the Wild)\", \"Wildlife Biology\"] }"
+                        }
+                    },
+                    {
+                        "module": "ReviewFinalSelector",
+                        "prompt": {
+                            "user_prompt": "Find a single book about wildlife that explains how animals survive and interact in nature. Prefer books focused on animal behavior, ecology, and nature; length around 150-300 pages. Avoid excluded titles.",
+                            "candidate_books_with_reviews": [
+                                {
+                                    "title": "Wildlife Biology",
+                                    "authors": "Raymond Fredric Dasmann, Raymond F. Dasmann",
+                                    "publishedDate": "1981-01-19",
+                                    "categories": "Nature",
+                                    "bookLength": 339,
+                                    "description": "What good are wild animals?; Wildlife values; Wildlife as a natural resource; The status of wildlife conservation; The ten-thousand year war; Everything tied together; Functioning of ecosystems; Ecosystem development; Change and degradation; Distribution of biotic communities; Ecologic niches; A place to live; Enough to eat; Cover; Water; Quantity versus interspresion; Limiting factors; Introducing wildlife populations; Density and biomass; Population structure; Natality; Mortality; Interaction of population; Characteristics; Turnover; Productivity; Territory and travels; Movements internal to the population area; Movements external to the population; Group size and spacing; Territory; Significance of spacing and movements; Too many mice, too few elephants; New populations in new habitats; Some real life problems; The annual cycle of populations; Shootable surplus; Stocking of game; Stability of populations; Evolutionary strategies; Levelling off; The many meanings of carrying capacity; Declining diversity; Species extinction and area size; Destruction of habitat; Nature reserves; Animal trade; International assistance; The controllers.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "Animal ecology (Biology series)",
+                                    "authors": "Luigi Boitani, T. K. Fuller",
+                                    "publishedDate": "2000-01",
+                                    "categories": "Science",
+                                    "bookLength": 284,
+                                    "description": "This book provides an analysis of frequently used research techniques in animal ecology, identifying their limitations and misuses, as well as possible solutions to avoid such pitfalls. The contributors provide an overarching account of central theoretical and methodological controversies. The editors have forged comprehensive presentations of key topics in animal ecology, such as territory and home range estimates, habitation evaluation, population viability analysis, GIS mapping, and measuring the dynamics of societies.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "Prey",
+                                    "authors": "Michael Chinery",
+                                    "publishedDate": "2000",
+                                    "categories": "Predation (Biology)",
+                                    "bookLength": 246,
+                                    "description": "Tropical rainforests cover only about 6% of the earth's surface, yet they are home to more than half the world's species. This book looks at the biology and behaviour of predators and prey describing how they live together in harmony and balance and how vital they are to the wellbeing of the whole world. It is one of a series of books which aims to provide an understanding of the unique ecosystems of the rainforest. It describes the amazing plants and animals and how they interact, and addresses local and global environmental and conservation issues.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
+                                    "title": "How Animals Live (The Amazing World of Animals in the Wild)",
+                                    "authors": "Bernard Stonehouse, Esther Bertram",
+                                    "publishedDate": "2004",
+                                    "categories": "Juvenile Nonfiction",
+                                    "bookLength": 266,
+                                    "description": "Presents an overview of the characteristic behavior, habits, and survival skills of various types of animals around the world.",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                }
+                            ]
+                        },
+                        "response": {
+                            "raw_output": "{\"title\":\"Prey\"}"
+                        }
+                    },
+                    {
+                        "module": "BookBuyAgentRunner",
+                        "prompt": {
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
+                            "user": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
+                            "last_tool_result": {
+                                "tool_name": "recommendationTool",
+                                "args": {
+                                    "user_prompt": "Find a single book about wildlife that explains how animals survive and interact in nature. Prefer books focused on animal behavior, ecology, and nature; length around 150-300 pages. Avoid excluded titles.",
+                                    "excluded_titles": [
+                                        "The Jungle Book",
+                                        "Life of Pi"
+                                    ],
+                                    "user_preferences": [
+                                        "animals",
+                                        "wildlife",
+                                        "nature",
+                                        "animal behavior",
+                                        "book length: around 150-300 pages"
+                                    ]
+                                },
+                                "result": {
+                                    "status": "found",
+                                    "title": "Prey",
+                                    "authors": "Michael Chinery",
+                                    "published_date": "2000",
+                                    "categories": "Predation (Biology)",
+                                    "book_length": 246,
+                                    "description": "Tropical rainforests cover only about 6% of the earth's surface, yet they are home to more than half the world's species. This book looks at the biology and behaviour of predators and prey describing how they live together in harmony and balance and how vital they are to the wellbeing of the whole world. It is one of a series of books which aims to provide an understanding of the unique ecosystems of the rainforest. It describes the amazing plants and animals and how they interact, and addresses local and global environmental and conservation issues."
+                                }
+                            }
+                        },
+                        "response": {
+                            "content": "",
+                            "tool_calls": [
+                                {
+                                    "name": "findPricesTool",
+                                    "args": {
+                                        "book_title": "Prey"
+                                    },
+                                    "id": "call_KAgfWIe4fDbiDekvOdSQR6Xo",
+                                    "type": "tool_call"
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        "module": "BookBuyAgentRunner",
+                        "prompt": {
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 2 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\", \"Prey\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
+                            "user": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature"
+                        },
+                        "response": {
+                            "content": "",
+                            "tool_calls": [
+                                {
+                                    "name": "recommendationTool",
+                                    "args": {
+                                        "user_prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
+                                        "excluded_titles": [
+                                            "The Jungle Book",
+                                            "Life of Pi",
+                                            "Prey"
+                                        ],
+                                        "user_preferences": [
+                                            "animals",
+                                            "wildlife",
+                                            "nature",
+                                            "animal behavior",
+                                            "book length: around 150-300 pages"
+                                        ]
+                                    },
+                                    "id": "call_avxp1gSKmjapWgI7BlbK01OD",
                                     "type": "tool_call"
                                 }
                             ]
@@ -175,7 +386,9 @@ async def get_agent_info():
                                     "publishedDate": "1983",
                                     "categories": "Science",
                                     "bookLength": 264,
-                                    "description": "A comprehensive book about the controversial coyote includes sections on its life history, present status, effect of predation on other wildlife, and continuing adaptability to mankind"
+                                    "description": "A comprehensive book about the controversial coyote includes sections on its life history, present status, effect of predation on other wildlife, and continuing adaptability to mankind",
+                                    "summary_reviews": [],
+                                    "avg_score": None
                                 },
                                 {
                                     "title": "How Animals Live (The Amazing World of Animals in the Wild)",
@@ -196,16 +409,6 @@ async def get_agent_info():
                                     "description": "What good are wild animals?; Wildlife values; Wildlife as a natural resource; The status of wildlife conservation; The ten-thousand year war; Everything tied together; Functioning of ecosystems; Ecosystem development; Change and degradation; Distribution of biotic communities; Ecologic niches; A place to live; Enough to eat; Cover; Water; Quantity versus interspresion; Limiting factors; Introducing wildlife populations; Density and biomass; Population structure; Natality; Mortality; Interaction of population; Characteristics; Turnover; Productivity; Territory and travels; Movements internal to the population area; Movements external to the population; Group size and spacing; Territory; Significance of spacing and movements; Too many mice, too few elephants; New populations in new habitats; Some real life problems; The annual cycle of populations; Shootable surplus; Stocking of game; Stability of populations; Evolutionary strategies; Levelling off; The many meanings of carrying capacity; Declining diversity; Species extinction and area size; Destruction of habitat; Nature reserves; Animal trade; International assistance; The controllers."
                                 },
                                 {
-                                    "title": "Prey",
-                                    "authors": "Michael Chinery",
-                                    "publishedDate": "2000",
-                                    "categories": "Predation (Biology)",
-                                    "bookLength": 246,
-                                    "description": "Tropical rainforests cover only about 6% of the earth's surface, yet they are home to more than half the world's species. This book looks at the biology and behaviour of predators and prey describing how they live together in harmony and balance and how vital they are to the wellbeing of the whole world. It is one of a series of books which aims to provide an understanding of the unique ecosystems of the rainforest. It describes the amazing plants and animals and how they interact, and addresses local and global environmental and conservation issues.",
-                                    "summary_reviews": [],
-                                    "avg_score": None
-                                },
-                                {
                                     "title": "Second Nature : Environmental Enrichment for Captive Animals (Zoo & Aquarium Biology & Conservation Ser.)",
                                     "authors": "David J. Shepherdson, Jill D. Mellen, Michael Hutchins",
                                     "publishedDate": "2012-01-11",
@@ -222,11 +425,21 @@ async def get_agent_info():
                                     "description": "This book provides an analysis of frequently used research techniques in animal ecology, identifying their limitations and misuses, as well as possible solutions to avoid such pitfalls. The contributors provide an overarching account of central theoretical and methodological controversies. The editors have forged comprehensive presentations of key topics in animal ecology, such as territory and home range estimates, habitation evaluation, population viability analysis, GIS mapping, and measuring the dynamics of societies.",
                                     "summary_reviews": [],
                                     "avg_score": None
+                                },
+                                {
+                                    "title": "Wild animals I have known and 200 drawings,",
+                                    "authors": "Ernest Thompson, Ernest Thompson Seton",
+                                    "publishedDate": "2017-11-16",
+                                    "categories": "Biography & Autobiography",
+                                    "bookLength": 252,
+                                    "description": "'The most precious book of my childhood’ – Sir David Attenborough Meet Old Lobo, a gigantic grey wolf whose death-defying predations on sheep and cattle herds are the scourge of farmers and ranchers in the Currumpaw region of northern New Mexico. This great wolf is just one of the animals whose true stories come to life in this engrossing collection of tales by the celebrated naturalist Ernest Thompson Seton (1860-1946). Combining scientific observations of animals in their natural habitats with a romantic vision of nature and the narrative skills of a born storyteller, Seton created an extraordinary collection of tales that gave the animal story new force and believability as a literary genre. Critically and popularly acclaimed upon its initial appearance in 1898, Wild Animals I Have Known remains, more than a century later, the best-known and best-loved of his works. Each tale focuses on an individual creature: the clever crow, Silverspot; Raggylug, a young cottontail rabbit; the author's errant hound, Bingo; Redruff, a Don Valley partridge; a wild horse known as The Mustang; Vixen, The Springfield Fox; and Wully, faithful sheep dog by day and treacherous killer by night. Seton offers affectionate but realistic portraits of each animal,",
+                                    "summary_reviews": [],
+                                    "avg_score": None
                                 }
                             ]
                         },
                         "response": {
-                            "raw_output": "{ \"titles\": [\"How Animals Live (The Amazing World of Animals in the Wild)\", \"Prey\", \"Animal ecology (Biology series)\"] }"
+                            "raw_output": "{ \"titles\": [\"How Animals Live (The Amazing World of Animals in the Wild)\", \"Animal ecology (Biology series)\", \"Wild animals I have known and 200 drawings,\", \"Coyotes: Predators and Survivors\"] }"
                         }
                     },
                     {
@@ -235,22 +448,22 @@ async def get_agent_info():
                             "user_prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                             "candidate_books_with_reviews": [
                                 {
+                                    "title": "Coyotes: Predators and Survivors",
+                                    "authors": "Charles L. Cadieux",
+                                    "publishedDate": "1983",
+                                    "categories": "Science",
+                                    "bookLength": 264,
+                                    "description": "A comprehensive book about the controversial coyote includes sections on its life history, present status, effect of predation on other wildlife, and continuing adaptability to mankind",
+                                    "summary_reviews": [],
+                                    "avg_score": None
+                                },
+                                {
                                     "title": "How Animals Live (The Amazing World of Animals in the Wild)",
                                     "authors": "Bernard Stonehouse, Esther Bertram",
                                     "publishedDate": "2004",
                                     "categories": "Juvenile Nonfiction",
                                     "bookLength": 266,
                                     "description": "Presents an overview of the characteristic behavior, habits, and survival skills of various types of animals around the world.",
-                                    "summary_reviews": [],
-                                    "avg_score": None
-                                },
-                                {
-                                    "title": "Prey",
-                                    "authors": "Michael Chinery",
-                                    "publishedDate": "2000",
-                                    "categories": "Predation (Biology)",
-                                    "bookLength": 246,
-                                    "description": "Tropical rainforests cover only about 6% of the earth's surface, yet they are home to more than half the world's species. This book looks at the biology and behaviour of predators and prey describing how they live together in harmony and balance and how vital they are to the wellbeing of the whole world. It is one of a series of books which aims to provide an understanding of the unique ecosystems of the rainforest. It describes the amazing plants and animals and how they interact, and addresses local and global environmental and conservation issues.",
                                     "summary_reviews": [],
                                     "avg_score": None
                                 },
@@ -263,6 +476,16 @@ async def get_agent_info():
                                     "description": "This book provides an analysis of frequently used research techniques in animal ecology, identifying their limitations and misuses, as well as possible solutions to avoid such pitfalls. The contributors provide an overarching account of central theoretical and methodological controversies. The editors have forged comprehensive presentations of key topics in animal ecology, such as territory and home range estimates, habitation evaluation, population viability analysis, GIS mapping, and measuring the dynamics of societies.",
                                     "summary_reviews": [],
                                     "avg_score": None
+                                },
+                                {
+                                    "title": "Wild animals I have known and 200 drawings,",
+                                    "authors": "Ernest Thompson, Ernest Thompson Seton",
+                                    "publishedDate": "2017-11-16",
+                                    "categories": "Biography & Autobiography",
+                                    "bookLength": 252,
+                                    "description": "'The most precious book of my childhood’ – Sir David Attenborough Meet Old Lobo, a gigantic grey wolf whose death-defying predations on sheep and cattle herds are the scourge of farmers and ranchers in the Currumpaw region of northern New Mexico. This great wolf is just one of the animals whose true stories come to life in this engrossing collection of tales by the celebrated naturalist Ernest Thompson Seton (1860-1946). Combining scientific observations of animals in their natural habitats with a romantic vision of nature and the narrative skills of a born storyteller, Seton created an extraordinary collection of tales that gave the animal story new force and believability as a literary genre. Critically and popularly acclaimed upon its initial appearance in 1898, Wild Animals I Have Known remains, more than a century later, the best-known and best-loved of his works. Each tale focuses on an individual creature: the clever crow, Silverspot; Raggylug, a young cottontail rabbit; the author's errant hound, Bingo; Redruff, a Don Valley partridge; a wild horse known as The Mustang; Vixen, The Springfield Fox; and Wully, faithful sheep dog by day and treacherous killer by night. Seton offers affectionate but realistic portraits of each animal,",
+                                    "summary_reviews": [],
+                                    "avg_score": None
                                 }
                             ]
                         },
@@ -273,7 +496,7 @@ async def get_agent_info():
                     {
                         "module": "BookBuyAgentRunner",
                         "prompt": {
-                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 2 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\", \"Prey\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
                             "user": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                             "last_tool_result": {
                                 "tool_name": "recommendationTool",
@@ -281,7 +504,8 @@ async def get_agent_info():
                                     "user_prompt": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                                     "excluded_titles": [
                                         "The Jungle Book",
-                                        "Life of Pi"
+                                        "Life of Pi",
+                                        "Prey"
                                     ],
                                     "user_preferences": [
                                         "animals",
@@ -310,7 +534,7 @@ async def get_agent_info():
                                     "args": {
                                         "book_title": "How Animals Live (The Amazing World of Animals in the Wild)"
                                     },
-                                    "id": "call_ocoTWDGwKqEJQb2NpW6rTgAM",
+                                    "id": "call_fiZwOqjoTpZNa2hddg8zv2Ch",
                                     "type": "tool_call"
                                 }
                             ]
@@ -319,7 +543,7 @@ async def get_agent_info():
                     {
                         "module": "BookBuyAgentRunner",
                         "prompt": {
-                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 2 / 3\n    excluded_titles: [\"The Jungle Book\", \"Life of Pi\", \"Prey\"]\n    user_preferences: [\"animals\", \"wildlife\", \"nature\", \"animal behavior\", \"book length: around 150-300 pages\"]\n    address: Tel Aviv\n    payment_token: 9876543\n    ",
                             "user": "I'm looking for an interesting book about wildlife that explains how animals survive and interact in nature",
                             "last_tool_result": {
                                 "tool_name": "findPricesTool",
@@ -339,11 +563,11 @@ async def get_agent_info():
                                     ],
                                     "errors": [
                                         {
-                                            "shop": "knowledge_store",
+                                            "shop": "mega_market1",
                                             "error": "HTTP 404: {\"detail\":\"Book not found in this shop\"}"
                                         },
                                         {
-                                            "shop": "mega_market1",
+                                            "shop": "knowledge_store",
                                             "error": "HTTP 404: {\"detail\":\"Book not found in this shop\"}"
                                         },
                                         {
@@ -365,7 +589,7 @@ async def get_agent_info():
                                         "address": "Tel Aviv",
                                         "payment_token": "9876543"
                                     },
-                                    "id": "call_P3mesEDeRrVkL7M0w5tDA81g",
+                                    "id": "call_bBSub3zaSHn0UetT2neywxKN",
                                     "type": "tool_call"
                                 }
                             ]
@@ -387,7 +611,7 @@ async def get_agent_info():
                     {
                         "module": "BookBuyAgentRunner",
                         "prompt": {
-                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not null\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: []\n    user_preferences: []\n    address: Technion, Haifa\n    payment_token: 123456\n    ",
+                            "system": "\n    You are a ReAct BookBuy agent.\n\n    You have tools:\n    - recommendationTool(user_prompt, excluded_titles, user_preferences) -> dict\n    - findPricesTool(book_title) -> dict (returns ALL offers)\n    - buyBookTool(shop_id, book_title, address, payment_token) -> dict\n\n    You have EXACTLY 3 attempts total.\n    An attempt means: pick ONE candidate book and try to complete the whole process:\n    recommendationTool -> findPricesTool -> buyBookTool.\n\n    Attempt rules (within ONE attempt):\n    1) Call recommendationTool using the excluded_titles and user_preferences given in CONTEXT.\n    2) If recommendationTool returns status=\"no_match\": STOP ENTIRE RUN immediately.\n    3) Call findPricesTool with the recommendation.title .\n    4) If findPricesTool returns status=\"out_of_stock\" or status=\"error\": STOP this attempt immediately.\n    5) If findPricesTool returns status=\"found\":\n       - consider only offers with in_stock=true and price not None\n       - choose the lowest price\n       - If the lowest price is around or above 200 ILS, consider it expensive for a book and stop this attempt; otherwise proceed to purchase.\n       - when calling buyBookTool, prefer offer.store_title if present, else use the recommended title\n    6) Call buyBookTool exactly once.\n    7) If buyBookTool returns status=\"success\": you are DONE (final success).\n    8) If buyBookTool returns status=\"failed\": STOP this attempt immediately.\n\n    IMPORTANT:\n    - Do NOT retry within the same attempt. If something fails, stop the attempt.\n\n    CONTEXT:\n    attempt_number: 1 / 3\n    excluded_titles: []\n    user_preferences: []\n    address: Technion, Haifa\n    payment_token: 123456\n    ",
                             "user": "I'm looking for an interesting book about antal lykazky daniel shmulevich and offek hai"
                         },
                         "response": {
