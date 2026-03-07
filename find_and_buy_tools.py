@@ -12,8 +12,7 @@ def _search_shop(shop: str, book_title: str) -> dict:
         url = f"{RETAILER_API_URL}/shops/{shop}/search"
         res = requests.get(
             url,
-            params={"title": book_title},
-            timeout=(2, 5),
+            params={"title": book_title}
         )
 
         if res.status_code != 200:
@@ -95,7 +94,7 @@ def buy_book(shop_id: str, book_title: str, address: str, payment_token: str) ->
             "payment_token": payment_token,
         }
 
-        res = requests.post(buy_url, json=payload, timeout=(2, 5))
+        res = requests.post(buy_url, json=payload)
 
         if res.status_code == 200:
             data = res.json()
