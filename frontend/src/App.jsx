@@ -53,7 +53,7 @@ Fill the fields and click "Run Agent".`
     try {
 
       // 3. Send the entire JSON payload directly to the backend API
-      const response = await fetch(`/agent/api/execute`, {
+      const response = await fetch(`/execute`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
