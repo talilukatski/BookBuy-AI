@@ -18,9 +18,9 @@ def mock_redirect():
     return RedirectResponse(url="/mock/")
 
 
-@app.get("/agent")
+@app.get("/api")
 def agent_redirect():
-    return RedirectResponse(url="/agent/")
+    return RedirectResponse(url="/api/")
 
 
 # --- Frontend build ---
