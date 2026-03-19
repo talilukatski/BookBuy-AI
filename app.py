@@ -8,7 +8,7 @@ from mock_retailer.main import app as mock_app
 
 app = FastAPI()
 
-app.mount("/agent", agent_app)
+app.mount("/api", agent_app)
 app.mount("/mock", mock_app)
 
 
