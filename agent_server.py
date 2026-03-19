@@ -56,7 +56,7 @@ class ExecuteResponse(BaseModel):
 
 
 # --- API Endpoints ---
-@app.get("/api/team_info", response_model=TeamInfo)
+@app.get("/team_info", response_model=TeamInfo)
 async def get_team_info():
     """Returns the team details."""
     return {
@@ -70,7 +70,7 @@ async def get_team_info():
     }
 
 
-@app.get("/api/agent_info", response_model=AgentInfo)
+@app.get("/agent_info", response_model=AgentInfo)
 async def get_agent_info():
     """Returns agent metadata."""
     return {
@@ -704,7 +704,7 @@ async def get_agent_info():
     }
 
 
-@app.get("/api/model_architecture")
+@app.get("/model_architecture")
 async def get_model_architecture():
     """Returns the architecture diagram."""
     file_path = "architecture.png"
@@ -714,7 +714,7 @@ async def get_model_architecture():
         raise HTTPException(status_code=404, detail="Architecture diagram not found.")
 
 
-@app.post("/api/execute", response_model=ExecuteResponse)
+@app.post("/execute", response_model=ExecuteResponse)
 async def execute_agent(request: ExecuteRequest):
     steps = []
     try:
