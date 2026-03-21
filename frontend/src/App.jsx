@@ -13,14 +13,14 @@ Tell me what kind of book you're looking for and I'll handle the rest — I'll f
 
 In the request box you'll see a JSON form:
 
-• prompt (string) – describe the type of book you want  
-• address (string) – your delivery address  
-• payment_token (string) – payment token used for checkout  
-• user_preferences (string[]) – optional preferences like topics, style, or book length  
-• disliked_titles (string[]) – books you do NOT want recommended  
-• already_read_titles (string[]) – books you've already read  
+• prompt (string) – describe the type of book you want (required)
+• address (string) – optional, defaults to "Technion, Haifa"
+• payment_token (string) – optional, defaults to "card123456"
+• user_preferences (string[]) – optional preferences like topics or style
+• disliked_titles (string[]) – books you do NOT want recommended
+• already_read_titles (string[]) – books you've already read
 
-You can leave **user_preferences**, **disliked_titles**, or **already_read_titles** empty if you don't have any.
+Only the **prompt** is mandatory. If you leave the others empty, I'll use your default shipping and payment details.
 
 Fill the fields and click "Run Agent".`
 }
