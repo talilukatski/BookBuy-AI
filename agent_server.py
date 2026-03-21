@@ -41,8 +41,8 @@ class AgentInfo(BaseModel):
 
 class ExecuteRequest(BaseModel):
     prompt: str
-    address: str
-    payment_token: str
+    address: str = "Technion, Haifa"
+    payment_token: str = "card123456"
     user_preferences: Optional[List[str]] = None
     disliked_titles: Optional[List[str]] = None
     already_read_titles: Optional[List[str]] = None
