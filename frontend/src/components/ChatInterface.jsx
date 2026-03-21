@@ -51,12 +51,6 @@ function ChatInterface({ messages, onSendMessage }) {
     if (!payload.prompt || String(payload.prompt).trim() === '')
       missing.push('prompt')
 
-    if (!payload.address || String(payload.address).trim() === '')
-      missing.push('address')
-
-    if (!payload.payment_token || String(payload.payment_token).trim() === '')
-      missing.push('payment_token')
-
     if (missing.length > 0) {
       setJsonError(`Missing required field(s): ${missing.join(', ')}`)
       return
