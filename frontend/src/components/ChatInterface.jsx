@@ -56,6 +56,9 @@ function ChatInterface({ messages, onSendMessage }) {
       return
     }
 
+    if (!payload.address) delete payload.address
+    if (!payload.payment_token) delete payload.payment_token
+
     // 3. Ensure optional fields are arrays
     const normalizeList = (v) => {
       if (Array.isArray(v)) return v
